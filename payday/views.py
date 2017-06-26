@@ -9,8 +9,7 @@ from .forms import EntryForm, CountForm
 @require_GET
 def index(request):
     last_ten_entries = Entry.objects.order_by("-create_date")[:10]
-    response = {'last_ten_entries': last_ten_entries}
-    return render(request, 'payday/index.html', response)
+    return render(request, 'payday/index.html', {'last_ten_entries': last_ten_entries})
 
 
 @require_GET
@@ -22,14 +21,16 @@ def settings(request):
 def add_new(request):
     if request.method == 'POST':
         form = EntryForm(request.POST)
+
         if form.is_valid():
-            print("HERE")
             data = form.save(commit=False)
             data.create_date = timezone.now()
             data.save()
             return HttpResponseRedirect('/')
+
     else:
         form = EntryForm()
+
     return render(request, 'payday/new.html', {'form': form})
 
 
@@ -37,21 +38,21 @@ def add_new(request):
 def count(request):
     if request.method == 'POST':
         form = CountForm(request.POST)
+
         if form.is_valid():
             count_hours = 0
             from_date = form.cleaned_data.get('from_date')
             to_date = form.cleaned_data.get('to_date')
             data = Entry.objects.filter(day__gte=from_date).filter(day__lte=to_date)
 
-            if (data.exists()):
+            if data:
                 for hours in data:
                     count_hours += hours.hours
-            print(form.cleaned_data.get('hour_rate'))
-            result = count_hours * float(form.cleaned_data.get('hour_rate')) \
-                     * float(form.cleaned_data.get('company_rate'))
+
+            result = count_hours * float(form.get('hour_rate')) * float(form.get('company_rate'))
             return render(request, 'payday/count.html', {'form': form,
-                                                         'result': result
-            })
+                                                         'result': result})
     else:
         form = CountForm()
+
     return render(request, 'payday/count.html', {'form': form})
