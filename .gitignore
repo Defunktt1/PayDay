@@ -1,3 +1,5 @@
 .idea
 __init__.py
 Payday/settings.py
+__pycache__
+*.pyc
