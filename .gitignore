@@ -1,5 +1,5 @@
 .idea
 __init__.py
-Payday/settings.py
+Payday/secret.py
 __pycache__
 *.pyc

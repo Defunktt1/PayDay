@@ -1,8 +1,11 @@
-<form action="{% url 'payday:count' %}" method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" value="Расчитать">
-    {% if result %}
-        {{ result }}
-    {% endif %}
-</form>
+{% extends "payday/parent.html" %}
+{% block content %}
+    <form action="{% url 'payday:count' %}" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Расчитать">
+        {% if result %}
+            {{ result }}
+        {% endif %}
+    </form>
+{% endblock %}
