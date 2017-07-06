@@ -8,7 +8,7 @@ from .forms import EntryForm, CountForm
 
 @require_GET
 def index(request):
-    last_third_entries = Entry.objects.order_by("-day")[:30]
+    last_third_entries = Entry.objects.order_by("-create_date")[:30]
     return render(request, 'payday/index.html', {'last_third_entries': last_third_entries})
 
 
@@ -27,7 +27,8 @@ def add_new(request):
             data = form.save(commit=False)
             date = request.POST.get("day")
             date = date.replace("/", " ")
-            data.create_date = datetime.strptime(date, '%m %d %Y')
+            data.day = datetime.strptime(date, '%d %m %Y')
+            data.create_date = datetime.now()
             data.save()
             return HttpResponseRedirect('/')
 
