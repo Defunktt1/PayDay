@@ -1,9 +1,52 @@
 {% extends "payday/parent.html" %}
+{% load widget_tweaks %}
 
 {% block content %}
-    <form method="post" action="{% url 'payday:new' %}">
+    <form method="post" action="{% url 'payday:new' %}" class="col-md-6 col-md-offset-3">
         {% csrf_token %}
-        {{ form.as_p }}
-        <br/><input type="submit" value="Добавить">
-    </form>
+        <div class="form-group">
+            {{ form.errors }}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.user_name.auto_id }}">{{ form.user_name.label }}</label>
+            {{ form.user_name|add_class:"form-control" }}
+        </div>
+
+        <div class="container">
+            <div class="row">
+                <div class='col-sm-6'>
+                    <div class="form-group">
+                        <div class='input-group date' id='datetimepicker1'>
+                            <input type='text' class="form-control" name="day"/>
+                            <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                        </div>
+                    </div>
+                </div>
+                <script type="text/javascript">
+                    $(function () {
+                        $('#datetimepicker1').datetimepicker({
+                            'format': 'DD/MM/YYYY'
+                        });
+                    });
+                </script>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.hours.auto_id }}" class="col-xs-12">{{ form.hours.label }}</label>
+            {{ form.hours|add_class:"form-control" }}
+        </div>
+
+
+        <div class="form-group">
+            <label for="{{ form.work_description.auto_id }}">{{ form.work_description.label }}</label>
+            {{ form.work_description|add_class:"form-control" }}
+        </div>
+        <div class="form-group">
+            <input type="submit" value="Добавить">
+        </div>
+        </form>
 {% endblock %}

@@ -1,9 +1,33 @@
 {% extends "payday/parent.html" %}
 
 {% block content %}
+
+    <div class="container">
+        <table class="table">
+            <thead>
+            <tr>
+                <th>User</th>
+                <th>Date</th>
+                <th>Hours</th>
+                <th>Work description</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+
+            </tr>
+            {% for entry in last_third_entries %}
+                <tr>
+                    <td>{{ entry.user_name }}</td>
+                    <td>{{ entry.day }}</td>
+                    <td>{{ entry.hours }}</td>
+                    <td>{{ entry.work_description }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
     <div>
-        {% for entry in last_ten_entries %}
-            {{ entry }}<br/>
-        {% endfor %}
+
     </div>
 {% endblock %}

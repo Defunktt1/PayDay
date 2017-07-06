@@ -1,6 +1,6 @@
 from django.shortcuts import render, HttpResponse, HttpResponseRedirect
 from django.views.decorators.http import require_http_methods, require_GET
-from django.utils import timezone
+from datetime import datetime
 
 from .models import Entry
 from .forms import EntryForm, CountForm
@@ -8,8 +8,8 @@ from .forms import EntryForm, CountForm
 
 @require_GET
 def index(request):
-    last_ten_entries = Entry.objects.order_by("-create_date")[:10]
-    return render(request, 'payday/index.html', {'last_ten_entries': last_ten_entries})
+    last_third_entries = Entry.objects.order_by("-day")[:30]
+    return render(request, 'payday/index.html', {'last_third_entries': last_third_entries})
 
 
 @require_GET
@@ -20,11 +20,14 @@ def settings(request):
 @require_http_methods(['GET', 'POST'])
 def add_new(request):
     if request.method == 'POST':
+        print(request.POST.get('day'))
         form = EntryForm(request.POST)
 
         if form.is_valid():
             data = form.save(commit=False)
-            data.create_date = timezone.now()
+            date = request.POST.get("day")
+            date = date.replace("/", " ")
+            data.create_date = datetime.strptime(date, '%m %d %Y')
             data.save()
             return HttpResponseRedirect('/')
 
