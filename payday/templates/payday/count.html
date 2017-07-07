@@ -4,8 +4,9 @@
         {% csrf_token %}
         {{ form.as_p }}
         <input type="submit" value="Расчитать">
-        {% if result %}
-            {{ result }}
-        {% endif %}
+        <div1/>
+            {{ user_result }}
+        </div1>
+
     </form>
 {% endblock %}
