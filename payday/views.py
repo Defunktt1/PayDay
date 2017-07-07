@@ -20,7 +20,6 @@ def settings(request):
 @require_http_methods(['GET', 'POST'])
 def add_new(request):
     if request.method == 'POST':
-        print(request.POST.get('day'))
         form = EntryForm(request.POST)
 
         if form.is_valid():
@@ -50,7 +49,7 @@ def count(request):
             response = {
                 "form": form,
             }
-            print(request_data)
+
             # get date interval between two dates
             from_date = request.POST.get('from_date')
             to_date = request.POST.get('to_date')
