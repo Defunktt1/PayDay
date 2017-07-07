@@ -19,8 +19,6 @@ class EntryForm(forms.ModelForm):
 
 
 class CountForm(forms.Form):
-    from_date = forms.DateField(label="От:", widget=SelectDateWidget)
-    to_date = forms.DateField(label="До:", widget=SelectDateWidget)
     hour_rate = forms.FloatField(label="Зарплата за час:", min_value=0.0)
     company_rate = forms.FloatField(label="Сколько забирает фирма (в процентах):", min_value=0.0)
     manager_rate = forms.FloatField(label="Сколько забирает менеджер (в процентах):", min_value=0.0)

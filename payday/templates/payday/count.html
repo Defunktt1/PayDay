@@ -1,12 +1,93 @@
 {% extends "payday/parent.html" %}
+{% load widget_tweaks %}
+
 {% block content %}
-    <form action="{% url 'payday:count' %}" method="post">
+    <form action="{% url 'payday:count' %}" method="post" class="col-md-6 col-md-offset-3">
         {% csrf_token %}
-        {{ form.as_p }}
+
+        <label for="from_date">От:</label>
+        <div class="container">
+            <div class="row">
+                <div class='col-sm-10'>
+                    <div class="form-group">
+                        <div class='input-group date' id='from_date'>
+                            <input type='text' class="form-control" name="from_date"/>
+                            <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                        </div>
+                    </div>
+                </div>
+                <script type="text/javascript">
+                    $(function () {
+                        $('#from_date').datetimepicker({
+                            'format': 'DD/MM/YYYY'
+                        });
+                    });
+                </script>
+            </div>
+        </div>
+
+        <label for="to_date">До:</label>
+        <div class="container">
+            <div class="row">
+                <div class='col-sm-10'>
+                    <div class="form-group">
+                        <div class='input-group date' id='to_date'>
+                            <input type='text' class="form-control" name="to_date"/>
+                            <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                        </div>
+                    </div>
+                </div>
+                <script type="text/javascript">
+                    $(function () {
+                        $('#to_date').datetimepicker({
+                            'format': 'DD/MM/YYYY'
+                        });
+                    });
+                </script>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.hour_rate.auto_id }}">{{ form.hour_rate.label }}</label>
+            {{ form.hour_rate|add_class:"form-control" }}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.company_rate.auto_id }}">{{ form.company_rate.label }}</label>
+            {{ form.company_rate|add_class:"form-control" }}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.manager_rate.auto_id }}">{{ form.manager_rate.label }}</label>
+            {{ form.manager_rate|add_class:"form-control" }}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.exchange_rates.auto_id }}">{{ form.exchange_rates.label }}</label>
+            {{ form.exchange_rates|add_class:"form-control" }}
+        </div>
+
         <input type="submit" value="Расчитать">
-        <div1/>
-            {{ user_result }}
-        </div1>
+
+        <div class="show">
+            {% if date_error %}
+                {{ date_error }}
+            {% elif hours_error %}
+                {{ hours_error }}
+            {% elif response_check %}
+                <p>Всего заработано за этот период {{ total_money_in_usd }} долларов ({{ total_money_in_uan }}
+                    гривен)</p>
+                <p>Фирма заработала {{ company_result_in_usd }} долларов или же {{ company_result_in_uan }}
+                    гривен</p>
+                <p>Менеджер заработал {{ manager_result_in_usd }} долларов или же {{ manager_result_in_uan }}
+                    гривен</p>
+                <p> Вы заработали {{ user_result_in_usd }} долларов или же {{ user_result_in_uan }} гривен</p>
+            {% endif %}
+        </div>
 
     </form>
 {% endblock %}
