@@ -53,12 +53,15 @@ def count(request):
             # get date interval between two dates
             from_date = request.POST.get('from_date')
             to_date = request.POST.get('to_date')
+            user_name = request.POST.get('user_name')
             from_date = parse_time(from_date)
             to_date = parse_time(to_date)
             date_interval = Entry.objects.filter(day__gte=from_date).filter(day__lte=to_date)
+            find_user = date_interval.filter(user_name__contains=user_name)
 
             # check if data is valid
             date_is_valid = from_date <= to_date
+
             if not date_is_valid:
                 response["date_error"] = "Первая дата должна быть меньше второй"
 

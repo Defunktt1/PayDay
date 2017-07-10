@@ -7,6 +7,12 @@
 
 
         <div class="form-group">
+            <label for="{{ form.user_name.auto_id }}">{{ form.user_name.label }}</label>
+            {{ form.user_name|add_class:"form-control" }}
+        </div>
+
+
+        <div class="form-group">
             <label for="from_date">От:</label>
             <div class='input-group date' id='from_date'>
                 <input type='text' class="form-control" name="from_date" required/>

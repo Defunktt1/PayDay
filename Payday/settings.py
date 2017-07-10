@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'payday',
     'widget_tweaks',
+    'register',
 ]
 
 MIDDLEWARE = [

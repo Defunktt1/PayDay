@@ -18,5 +18,6 @@ from django.contrib import admin
 
 urlpatterns = [
     url(r'^', include('payday.urls')),
+    url(r'^auth/', include('register.urls')),
     url(r'^admin/', admin.site.urls),
 ]

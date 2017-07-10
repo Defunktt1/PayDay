@@ -44,6 +44,11 @@
                         href="{% url 'payday:new' %}">Добавить запись</a></li>
                 <li {% if request.resolver_match.url_name == "count" %} class="active" {% endif %} ><a
                         href="{% url 'payday:count' %}">Расчитать зарплату</a></li>
+                {% if user_name %}
+{#                    <li><a href={% url 'register:logout' %}>Выйти</a></li>#}
+                {% else %}
+{#                    <li><a href={% url 'register:login' %}>Войти</a></li>#}
+                {% endif %}
             </ul>
         </div><!-- /.nav-collapse -->
     </div><!-- /.container -->
