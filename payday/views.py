@@ -88,16 +88,6 @@ def count(request):
                 company_result_in_uan = company_result_in_usd * exchange_rates
                 user_result_in_uan = user_result_in_usd * exchange_rates
 
-                # limiting to two demical points
-                total_money_in_usd = float("{0:.2f}".format(total_money_in_usd))
-                total_money_in_uan = float("{0:.2f}".format(total_money_in_uan))
-                manager_result_in_usd = float("{0:.2f}".format(manager_result_in_usd))
-                manager_result_in_uan = float("{0:.2f}".format(manager_result_in_uan))
-                company_result_in_usd = float("{0:.2f}".format(company_result_in_usd))
-                company_result_in_uan = float("{0:.2f}".format(company_result_in_uan))
-                user_result_in_usd = float("{0:.2f}".format(user_result_in_usd))
-                user_result_in_uan = float("{0:.2f}".format(user_result_in_uan))
-
                 # set all data to dict
                 total_result = {
                     "total_money_in_usd": total_money_in_usd,
@@ -110,6 +100,10 @@ def count(request):
                     "user_result_in_uan": user_result_in_uan,
                     "response_check": True,
                 }
+
+                # limiting to two demical points
+                for key, result in total_result.items():
+                    total_result[key] = float("{0:2f}".format(result))
 
                 # update response dict
                 response.update(total_result)
