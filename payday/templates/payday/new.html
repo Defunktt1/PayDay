@@ -13,28 +13,25 @@
             {{ form.user_name|add_class:"form-control" }}
         </div>
 
-        <label for="datetimepicker1">Дата</label>
-        <div class="container">
-            <div class="row">
-                <div class='col-sm-7'>
-                    <div class="form-group">
-                        <div class='input-group date' id='datetimepicker1'>
-                            <input type='text' class="form-control" name="day"/>
-                            <span class="input-group-addon">
+
+        <div class="form-group">
+            <label for="datetimepicker1">Дата</label>
+            <div class='input-group date' id='datetimepicker1'>
+                <input type='text' class="form-control" name="day" required />
+                <span class="input-group-addon">
                         <span class="glyphicon glyphicon-calendar"></span>
                     </span>
-                        </div>
-                    </div>
-                </div>
-                <script type="text/javascript">
-                    $(function () {
-                        $('#datetimepicker1').datetimepicker({
-                            'format': 'DD/MM/YYYY'
-                        });
-                    });
-                </script>
             </div>
         </div>
+
+        <script type="text/javascript">
+            $(function () {
+                $('#datetimepicker1').datetimepicker({
+                    'format': 'DD/MM/YYYY'
+                });
+            });
+        </script>
+
 
         <div class="form-group">
             <label for="{{ form.hours.auto_id }}" class="col-xs-12">{{ form.hours.label }}</label>
@@ -49,5 +46,5 @@
         <div class="form-group">
             <input type="submit" value="Добавить">
         </div>
-        </form>
+    </form>
 {% endblock %}
