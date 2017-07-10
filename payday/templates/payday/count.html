@@ -5,51 +5,42 @@
     <form action="{% url 'payday:count' %}" method="post" class="col-md-6 col-md-offset-3">
         {% csrf_token %}
 
-        <label for="from_date">От:</label>
-        <div class="container">
-            <div class="row">
-                <div class='col-sm-10'>
-                    <div class="form-group">
-                        <div class='input-group date' id='from_date'>
-                            <input type='text' class="form-control" name="from_date"/>
-                            <span class="input-group-addon">
+
+        <div class="form-group">
+            <label for="from_date">От:</label>
+            <div class='input-group date' id='from_date'>
+                <input type='text' class="form-control" name="from_date" required/>
+                <span class="input-group-addon">
                         <span class="glyphicon glyphicon-calendar"></span>
                     </span>
-                        </div>
-                    </div>
-                </div>
-                <script type="text/javascript">
-                    $(function () {
-                        $('#from_date').datetimepicker({
-                            'format': 'DD/MM/YYYY'
-                        });
-                    });
-                </script>
             </div>
         </div>
 
-        <label for="to_date">До:</label>
-        <div class="container">
-            <div class="row">
-                <div class='col-sm-10'>
-                    <div class="form-group">
-                        <div class='input-group date' id='to_date'>
-                            <input type='text' class="form-control" name="to_date"/>
-                            <span class="input-group-addon">
+        <script type="text/javascript">
+            $(function () {
+                $('#from_date').datetimepicker({
+                    'format': 'DD/MM/YYYY'
+                });
+            });
+        </script>
+
+
+        <div class="form-group">
+            <label for="to_date">До:</label>
+            <div class='input-group date' id='to_date'>
+                <input type='text' class="form-control" name="to_date" required/>
+                <span class="input-group-addon">
                         <span class="glyphicon glyphicon-calendar"></span>
                     </span>
-                        </div>
-                    </div>
-                </div>
-                <script type="text/javascript">
-                    $(function () {
-                        $('#to_date').datetimepicker({
-                            'format': 'DD/MM/YYYY'
-                        });
-                    });
-                </script>
             </div>
         </div>
+        <script type="text/javascript">
+            $(function () {
+                $('#to_date').datetimepicker({
+                    'format': 'DD/MM/YYYY'
+                });
+            });
+        </script>
 
         <div class="form-group">
             <label for="{{ form.hour_rate.auto_id }}">{{ form.hour_rate.label }}</label>
