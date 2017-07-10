@@ -21,26 +21,26 @@
         <input type="password" style="width: 0;height: 0; visibility: hidden;position:absolute;left:0;top:0;"/>
 
         <div class="form-group">
-            {{ form.user_name.errors }}
-            <label for="{{ form.user_name.auto_id }}">{{ form.user_name.label }}</label>
-            {{ form.user_name|add_class:"form-control" }}
+            {{ form.username.errors }}
+            <label for="{{ form.username.auto_id }}">{{ form.username.label }}</label>
+            {{ form.username|add_class:"form-control" }}
         </div>
 
         <div class="form-group">
-            {{ form.user_email.errors }}
-            <label for="{{ form.user_email.auto_id }}">{{ form.user_email.label }}</label>
-            {{ form.user_email|add_class:"form-control" }}
+            {{ form.email.errors }}
+            <label for="{{ form.email.auto_id }}">{{ form.email.label }}</label>
+            {{ form.email|add_class:"form-control" }}
         </div>
 
         <div class="form-group">
-            {{ form.user_password.errors }}
-            <label for="{{ form.user_password.auto_id }}">{{ form.user_password.label }}</label>
-            {{ form.user_password|add_class:"form-control" }}
+            {{ form.confirm_password.errors }}
+            <label for="{{ form.password.auto_id }}">{{ form.password.label }}</label>
+            {{ form.password|add_class:"form-control" }}
         </div>
 
         <div class="form-group">
-            <label for="{{ form.confirm_user_password.auto_id }}">{{ form.confirm_user_password.label }}</label>
-            {{ form.confirm_user_password|add_class:"form-control" }}
+            <label for="{{ form.confirm_password.auto_id }}">{{ form.confirm_password.label }}</label>
+            {{ form.confirm_password|add_class:"form-control" }}
         </div>
 
         <input type="submit" value="Регистрация">

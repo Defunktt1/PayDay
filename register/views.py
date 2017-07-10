@@ -12,8 +12,7 @@ def register(request):
             try:
                 user_name = form.clean_username()
                 user_email = form.clean_email()
-                user_password = form.clean_password()
-
+                user_password = form.clean_confirm_password()
                 user = User.objects.create_user(user_name, user_email, user_password)
                 user.save()
 

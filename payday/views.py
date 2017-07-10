@@ -1,4 +1,4 @@
-from django.shortcuts import render, HttpResponse, HttpResponseRedirect
+from django.shortcuts import render, HttpResponseRedirect
 from django.views.decorators.http import require_http_methods, require_GET
 from datetime import datetime
 
@@ -10,11 +10,6 @@ from .forms import EntryForm, CountForm
 def index(request):
     last_third_entries = Entry.objects.order_by("-create_date")[:30]
     return render(request, 'payday/index.html', {'last_third_entries': last_third_entries})
-
-
-@require_GET
-def settings(request):
-    return HttpResponse('Site Settings')
 
 
 @require_http_methods(['GET', 'POST'])
