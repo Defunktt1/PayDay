@@ -2,6 +2,14 @@
 
 {% block content %}
 
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li class="{{ message.tags }}"><h1>{{ message }}</h1></li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
     <div class="container">
         <table class="table">
             <thead>

@@ -39,16 +39,18 @@
             <ul class="nav navbar-nav">
 
                 <li {% if request.resolver_match.url_name == "index" %} class="active" {% endif %} ><a
-                        href="{% url 'payday:index' %}">Домашняя страница</a></li>
+                        href={% url 'payday:index' %}>Домашняя страница</a></li>
                 <li {% if request.resolver_match.url_name == "new" %} class="active" {% endif %} ><a
-                        href="{% url 'payday:new' %}">Добавить запись</a></li>
+                        href={% url 'payday:new' %}>Добавить запись</a></li>
                 <li {% if request.resolver_match.url_name == "count" %} class="active" {% endif %} ><a
-                        href="{% url 'payday:count' %}">Расчитать зарплату</a></li>
-                {% if user_name %}
-{#                    <li><a href={% url 'register:logout' %}>Выйти</a></li>#}
+                        href={% url 'payday:count' %}>Расчитать зарплату</a></li>
+                {% if not user.is_authenticated %}
+                    <li><a href={% url 'register:register' %}>Регистрация</a></li>
+                    <li><a href={% url 'register:login' %}>Войти</a></li>
                 {% else %}
-{#                    <li><a href={% url 'register:login' %}>Войти</a></li>#}
+                    <li><a href={% url 'register:logout' %}>Выйти</a></li>
                 {% endif %}
+
             </ul>
         </div><!-- /.nav-collapse -->
     </div><!-- /.container -->
