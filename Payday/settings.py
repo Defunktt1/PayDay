@@ -26,7 +26,7 @@ SECRET_KEY = "dltn4kdngi553jdlgmc5kTGN3kdngD24"
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["payday-a2-lab"]
+ALLOWED_HOSTS = ["*"]
 
 # Application definition
 
