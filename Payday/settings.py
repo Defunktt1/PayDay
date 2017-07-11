@@ -12,12 +12,10 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 
 import os
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-
-STATIC_ROOT = os.path.normpath(os.path.join(BASE_DIR, 'staticfiles'))
-STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'static'),
-)
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+TEMPLATE_DIR = os.path.join(BASE_DIR, 'templates')
+STATIC_DIR = os.path.join(BASE_DIR, 'static')
+MEDIA_DIR = os.path.join(BASE_DIR, 'media')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
@@ -28,7 +26,7 @@ SECRET_KEY = "dltn4kdngi553jdlgmc5kTGN3kdngD24"
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["payday-a2-lab"]
 
 # Application definition
 
@@ -118,4 +116,6 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
+STATICFILES_DIR = [STATIC_DIR, ]
 STATIC_URL = '/static/'
+STATIC_ROOT = 'staticfiles'
