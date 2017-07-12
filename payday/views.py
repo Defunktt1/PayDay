@@ -1,15 +1,31 @@
 from django.shortcuts import render, HttpResponseRedirect
-from django.views.decorators.http import require_http_methods, require_GET
+from django.views.decorators.http import require_http_methods
 from datetime import datetime
+from django.views import generic
 
 from .models import Entry
 from .forms import EntryForm, CountForm
 
 
-@require_GET
-def index(request):
-    last_third_entries = Entry.objects.order_by("-create_date")[:30]
-    return render(request, 'payday/index.html', {'last_third_entries': last_third_entries})
+class IndexView(generic.ListView):
+    queryset = Entry.objects.order_by("-create_date")[:30]
+    template_name = "payday/index.html"
+    context_object_name = "last_third_entries"
+
+
+class NewEntryView(generic.CreateView):
+    model = Entry
+    fields = [
+        "day",
+        "hours",
+        "work_description",
+    ]
+    template_name = "payday/new.html"
+
+    def form_invalid(self, form):
+        print(parse_time(form.instance.day))
+        # self.object.day = parse_time(form.instance.day)
+        # form.instance.create_date = datetime.now()
 
 
 @require_http_methods(['GET', 'POST'])
@@ -48,11 +64,9 @@ def count(request):
             # get date interval between two dates
             from_date = request.POST.get('from_date')
             to_date = request.POST.get('to_date')
-            user_name = request.POST.get('user_name')
             from_date = parse_time(from_date)
             to_date = parse_time(to_date)
             date_interval = Entry.objects.filter(day__gte=from_date).filter(day__lte=to_date)
-            find_user = date_interval.filter(user_name__contains=user_name)
 
             # check if data is valid
             date_is_valid = from_date <= to_date
@@ -115,5 +129,5 @@ def count(request):
 
 
 def parse_time(date):
-    date = date.replace("/", " ")
+    date = date.replace("-", " ")
     return datetime.strptime(date, '%d %m %Y')

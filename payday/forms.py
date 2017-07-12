@@ -6,14 +6,12 @@ class EntryForm(forms.ModelForm):
     class Meta:
         model = Entry
         fields = (
-            'user_name',
             'hours',
             'work_description'
         )
         labels = {
             "hours": "Часы",
             "work_description": "Описание работы",
-            "user_name": "Ваше имя",
         }
 
 

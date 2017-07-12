@@ -4,7 +4,7 @@ from . import views
 app_name = "payday"
 
 urlpatterns = [
-    url(r'^$', views.index, name="index"),
-    url(r'^new/$', views.add_new, name="new"),
+    url(r'^$', views.IndexView.as_view(), name="index"),
+    url(r'^new/$', views.NewEntryView.as_view(), name="new"),
     url(r'^count/$', views.count, name="count"),
 ]
