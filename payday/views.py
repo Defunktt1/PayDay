@@ -1,54 +1,77 @@
-from django.shortcuts import render, HttpResponseRedirect
-from django.views.decorators.http import require_http_methods
+from django.shortcuts import render
 from datetime import datetime
-from django.views import generic
+from django.views.generic import ListView, CreateView, FormView
+from django.contrib import messages
 
 from .models import Entry
 from .forms import EntryForm, CountForm
 
 
-class IndexView(generic.ListView):
+class IndexView(ListView):
+    http_method_names = ["get"]
     queryset = Entry.objects.order_by("-create_date")[:30]
     template_name = "payday/index.html"
     context_object_name = "last_third_entries"
 
 
-class NewEntryView(generic.CreateView):
-    model = Entry
-    fields = [
-        "day",
-        "hours",
-        "work_description",
-    ]
+class NewEntryView(CreateView):
+    http_method_names = ["get", "post"]
     template_name = "payday/new.html"
+    form_class = EntryForm
+    success_url = "/"
 
-    def form_invalid(self, form):
-        print(parse_time(form.instance.day))
-        # self.object.day = parse_time(form.instance.day)
-        # form.instance.create_date = datetime.now()
-
-
-@require_http_methods(['GET', 'POST'])
-def add_new(request):
-    if request.method == 'POST':
-        form = EntryForm(request.POST)
-
-        if form.is_valid():
-            data = form.save(commit=False)
-            date = request.POST.get("day")
-            date = date.replace("/", " ")
-            data.day = datetime.strptime(date, '%d %m %Y')
-            data.create_date = datetime.now()
-            data.save()
-            return HttpResponseRedirect('/')
-
-    else:
-        form = EntryForm()
-
-    return render(request, 'payday/new.html', {'form': form})
+    def form_valid(self, form):
+        entry = form.save(commit=False)
+        entry.create_date = datetime.now()
+        return super(NewEntryView, self).form_valid(form)
 
 
-@require_http_methods(['GET', 'POST'])
+class CountView(FormView):
+    http_method_names = ["get", "post"]
+    template_name = "payday/count.html"
+    form_class = CountForm
+    success_url = "/count"
+
+    def form_valid(self, form):
+        data = form.cleaned_data
+
+        date_interval = Entry.objects.filter(day__gte=data["from_date"]).filter(day__lte=data["to_date"])
+        total_hours = 0
+        for hours in date_interval:
+            total_hours += hours.hours
+
+        total_money_in_usd = total_hours * data["hour_rate"]
+        total_money_in_uan = total_money_in_usd * data["exchange_rates"]
+        manager_result_in_usd = total_money_in_usd * (data["manager_rate"] / 100)
+        company_result_in_usd = total_money_in_usd * (data["company_rate"] / 100)
+        user_result_in_usd = total_money_in_usd - manager_result_in_usd - company_result_in_usd
+        manager_result_in_uan = manager_result_in_usd * data["exchange_rates"]
+        company_result_in_uan = company_result_in_usd * data["exchange_rates"]
+        user_result_in_uan = user_result_in_usd * data["exchange_rates"]
+
+        total_result = {
+            "total_money_in_usd": total_money_in_usd,
+            "total_money_in_uan": total_money_in_uan,
+            "manager_result_in_usd": manager_result_in_usd,
+            "manager_result_in_uan": manager_result_in_uan,
+            "company_result_in_usd": company_result_in_usd,
+            "company_result_in_uan": company_result_in_uan,
+            "user_result_in_usd": user_result_in_usd,
+            "user_result_in_uan": user_result_in_uan,
+        }
+
+        for key, result in total_result.items():
+            total_result[key] = float("{0:2f}".format(result))
+
+        return super(CountView, self).form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super(CountView, self).get_context_data(**kwargs)
+        print(context)
+        context["total_money_in_usd"] = 50
+        return context
+
+
 def count(request):
     if request.method == 'POST':
         form = CountForm(request.POST)

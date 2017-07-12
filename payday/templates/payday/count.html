@@ -2,5 +2,16 @@
 {% load widget_tweaks %}
 
 {% block content %}
-
+    {% include "payday/forms/count_form.html" %}
+    <div class="show">
+        {% if response_check %}
+            <p>Всего заработано за этот период {{ total_money_in_usd }} долларов ({{ total_money_in_uan }}
+                гривен)</p>
+            <p>Фирма заработала {{ company_result_in_usd }} долларов или же {{ company_result_in_uan }}
+                гривен</p>
+            <p>Менеджер заработал {{ manager_result_in_usd }} долларов или же {{ manager_result_in_uan }}
+                гривен</p>
+            <p> Вы заработали {{ user_result_in_usd }} долларов или же {{ user_result_in_uan }} гривен</p>
+        {% endif %}
+    </div>
 {% endblock %}

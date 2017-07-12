@@ -1,3 +1,4 @@
+{% load widget_tweaks %}
 <form method="post" action="{% url 'payday:new' %}" class="col-md-6 col-md-offset-3">
         {% csrf_token %}
         <div class="form-group">
@@ -17,7 +18,7 @@
         <script type="text/javascript">
             $(function () {
                 $('#datetimepicker1').datetimepicker({
-                    'format': 'DD/MM/YYYY'
+                    'format': 'DD.MM.YYYY'
                 });
             });
         </script>

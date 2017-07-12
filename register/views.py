@@ -1,4 +1,3 @@
-from django.shortcuts import HttpResponseRedirect
 from .forms import RegisterForm, LoginForm
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth import authenticate, login, logout
