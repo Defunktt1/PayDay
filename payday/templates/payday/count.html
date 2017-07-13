@@ -5,8 +5,9 @@
     {% include "payday/forms/count_form.html" %}
     {% if total_money_in_usd %}
         <div class="show col-xs-12 col-md-6 col-md-offset-3">
-            <p>Всего заработано за этот период {{ total_money_in_usd }} долларов ({{ total_money_in_uan }}
-                гривен)</p>
+            <p>За период с {{ from_date }} до {{ to_date }}</p>
+            <p>Всего заработано за этот период {{ total_money_in_usd }} долларов или же {{ total_money_in_uan }}
+                гривен</p>
             <p>Фирма заработала {{ company_result_in_usd }} долларов или же {{ company_result_in_uan }}
                 гривен</p>
             <p>Менеджер заработал {{ manager_result_in_usd }} долларов или же {{ manager_result_in_uan }}

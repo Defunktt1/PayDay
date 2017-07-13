@@ -3,6 +3,12 @@ from .models import Entry
 
 
 class EntryForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        initial = kwargs.get('initial', {})
+        initial["hours"] = 8
+        kwargs['initial'] = initial
+        super(EntryForm, self).__init__(*args, **kwargs)
+
     class Meta:
         model = Entry
         fields = (
@@ -12,18 +18,21 @@ class EntryForm(forms.ModelForm):
         )
         labels = {
             "day": "День",
-            "hours": "Часы",
+            "hours": "Отработанное время",
             "work_description": "Описание работы",
+        }
+        initials = {
+            "hours": 8,
         }
 
 
 class CountForm(forms.Form):
     from_date = forms.DateField()
     to_date = forms.DateField()
-    hour_rate = forms.FloatField(label="Зарплата за час:", min_value=0.0)
-    company_rate = forms.FloatField(label="Сколько забирает фирма (в процентах):", min_value=0.0)
-    manager_rate = forms.FloatField(label="Сколько забирает менеджер (в процентах):", min_value=0.0)
-    exchange_rates = forms.FloatField(label="Курс гривны:", min_value=0.0)
+    hour_rate = forms.FloatField(label="Зарплата за час (в долларах):", min_value=0.0, initial=5)
+    company_rate = forms.FloatField(label="Сколько забирает фирма (в процентах):", min_value=0.0, initial=37)
+    manager_rate = forms.FloatField(label="Сколько забирает менеджер (в процентах):", min_value=0.0, initial=8)
+    exchange_rates = forms.FloatField(label="Курс гривны:", min_value=0.0, initial=25)
 
     def clean_to_date(self):
         from_date = self.cleaned_data.get("from_date")

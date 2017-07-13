@@ -6,7 +6,7 @@ from django.urls import reverse_lazy
 
 from .models import Entry
 from .forms import EntryForm, CountForm
-from register.views import SignIn
+
 
 class IndexView(ListView):
     http_method_names = ["get"]
@@ -28,6 +28,7 @@ class NewEntryView(CreateView):
     def form_valid(self, form):
         entry = form.save(commit=False)
         entry.create_date = datetime.now()
+        entry.user = self.request.user
         entry.save()
         return super(NewEntryView, self).form_valid(form)
 
@@ -39,10 +40,15 @@ class CountView(FormView):
     success_url = "/count"
     context_object_name = "result"
 
+    @method_decorator(login_required(login_url=reverse_lazy("register:login")))
+    def dispatch(self, request, *args, **kwargs):
+        return super(CountView, self).dispatch(request, *args, **kwargs)
+
     def post(self, request, *args, **kwargs):
         form = request.POST
-
-        date_interval = Entry.objects.filter(day__gte=form["from_date"]).filter(day__lte=form["to_date"])
+        date_interval = Entry.objects.filter(day__gte=form["from_date"])\
+                                     .filter(day__lte=form["to_date"])\
+                                     .filter(user_id=request.user.id)
         total_hours = 0
         for hours in date_interval:
             total_hours += hours.hours

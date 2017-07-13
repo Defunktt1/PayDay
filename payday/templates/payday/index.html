@@ -2,41 +2,43 @@
 
 {% block content %}
 
-    {% if messages %}
-        <ul class="messages">
-            {% for message in messages %}
-                <li class="{{ message.tags }}"><h1>{{ message }}</h1></li>
-            {% endfor %}
-        </ul>
-    {% endif %}
+    {% if user.is_authenticated %}
+        {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                    <li class="{{ message.tags }}"><h1>{{ message }}</h1></li>
+                {% endfor %}
+            </ul>
+        {% endif %}
 
-    <div class="container">
-        <table class="table">
-            <thead>
-            <tr>
-                <th>User</th>
-                <th>Date</th>
-                <th>Hours</th>
-                <th>Work description</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-
-            </tr>
-
-            {% for entry in last_third_entries %}
+        <div class="container">
+            <table class="table">
+                <thead>
                 <tr>
-                    <td>{{ entry.user_name }}</td>
-                    <td>{{ entry.day }}</td>
-                    <td>{{ entry.hours }}</td>
-                    <td>{{ entry.work_description }}</td>
+                    <th>Пользователь</th>
+                    <th>Дата</th>
+                    <th>Отработанное время</th>
+                    <th>Описание работы</th>
                 </tr>
-            {% endfor %}
-            </tbody>
-        </table>
-    </div>
-    <div>
+                </thead>
+                <tbody>
+                <tr>
 
-    </div>
+                </tr>
+
+                {% for entry in last_third_entries %}
+                    <tr>
+                        <td>{{ entry.user|title }}</td>
+                        <td>{{ entry.day }}</td>
+                        <td>{{ entry.hours }}</td>
+                        <td>{{ entry.work_description }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div>
+
+        </div>
+    {% endif %}
 {% endblock %}

@@ -2,6 +2,9 @@ from .forms import RegisterForm, LoginForm
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth import authenticate, login, logout
 from django.views.generic import CreateView, FormView, RedirectView
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
+from django.urls import reverse_lazy
 
 
 class SignUp(SuccessMessageMixin, CreateView):
@@ -31,6 +34,10 @@ class SignIn(FormView):
 
 class Logout(RedirectView):
     url = "/"
+
+    @method_decorator(login_required(login_url=reverse_lazy("register:login")))
+    def dispatch(self, request, *args, **kwargs):
+        return super(Logout, self).dispatch(request, *args, **kwargs)
 
     def get(self, request, *args, **kwargs):
         logout(request)
