@@ -4,27 +4,15 @@ from django.contrib.auth import authenticate, login, logout
 from django.views.generic import CreateView, FormView, RedirectView
 
 
-class RegisterView(SuccessMessageMixin, CreateView):
+class SignUp(SuccessMessageMixin, CreateView):
     template_name = "register/register.html"
     form_class = RegisterForm
     success_url = "/"
     success_message = "Регистрация прошла успешно"
 
     def form_valid(self, form):
-        user = form.save()
-        user.save()
-        username = user.username
-        password = user.password
-        user = authenticate(username=username, password=password)
-        login(self.request, user)
-        return super(RegisterView, self).form_valid(form)
-
-
-class SignUp(SuccessMessageMixin, FormView):
-    template_name = "register/register.html"
-    form_class = RegisterForm
-    success_url = "/"
-    success_message = "Регистрация прошла успешно"
+        print(form.cleaned_data)
+        return super(SignUp, self).form_valid(form)
 
 
 class SignIn(FormView):
@@ -37,6 +25,7 @@ class SignIn(FormView):
         password = form.cleaned_data.get("password")
         user = authenticate(username=username, password=password)
         login(self.request, user)
+
         return super(SignIn, self).form_valid(form)
 
 

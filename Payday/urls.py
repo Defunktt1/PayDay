@@ -17,7 +17,7 @@ from django.conf.urls import url, include
 from django.contrib import admin
 
 urlpatterns = [
-    url(r'^', include('payday.urls')),
-    url(r'^auth/', include('register.urls')),
+    url(r'^', include('payday.urls', namespace="payday")),
+    url(r'^auth/', include('register.urls', namespace="auth")),
     url(r'^admin/', admin.site.urls),
 ]

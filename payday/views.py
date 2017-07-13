@@ -1,9 +1,12 @@
 from datetime import datetime
 from django.views.generic import ListView, CreateView, FormView
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
+from django.urls import reverse_lazy
 
 from .models import Entry
 from .forms import EntryForm, CountForm
-
+from register.views import SignIn
 
 class IndexView(ListView):
     http_method_names = ["get"]
@@ -18,9 +21,14 @@ class NewEntryView(CreateView):
     form_class = EntryForm
     success_url = "/"
 
+    @method_decorator(login_required(login_url=reverse_lazy("register:login")))
+    def dispatch(self, request, *args, **kwargs):
+        return super(NewEntryView, self).dispatch(request, *args, **kwargs)
+
     def form_valid(self, form):
         entry = form.save(commit=False)
         entry.create_date = datetime.now()
+        entry.save()
         return super(NewEntryView, self).form_valid(form)
 
 
@@ -73,6 +81,9 @@ def get_results(total_hours, hour_rate, exchange_rates, manager_rate, company_ra
     }
 
     for key, result in total_result.items():
-        total_result[key] = float("{0:.2f}".format(result))
+        if total_result[key].is_integer():
+            total_result[key] = int(total_result[key])
+        else:
+            total_result[key] = float("{0:.2f}".format(result))
 
     return total_result
