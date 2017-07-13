@@ -25,7 +25,7 @@
     <script type="text/javascript">
         $(function () {
             $('#from_date').datetimepicker({
-                'format': 'DD.MM.YYYY'
+                'format': 'YYYY-MM-DD'
             });
         });
     </script>
@@ -42,11 +42,12 @@
     <script type="text/javascript">
         $(function () {
             $('#to_date').datetimepicker({
-                'format': 'DD.MM.YYYY'
+                'format': 'YYYY-MM-DD'
             });
         });
     </script>
 
+    {{ context }}
     <div class="form-group">
         <label for="{{ form.hour_rate.auto_id }}">{{ form.hour_rate.label }}</label>
         {{ form.hour_rate|add_class:"form-control" }}
@@ -67,6 +68,6 @@
         {{ form.exchange_rates|add_class:"form-control" }}
     </div>
 
-    <input type="submit" value="Расчитать">
+    <input type="submit" value="Расчитать" class="btn btn-primary">
 
 </form>
